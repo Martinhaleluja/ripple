@@ -1,0 +1,102 @@
+<Window x:Class="Ripple.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ripple"
+        Width="372" SizeToContent="Height"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="True" TextOptions.TextFormattingMode="Display"
+        FontFamily="{StaticResource Inter}">
+    <!-- A notch-like card: the darkest surface, big soft corners, cards inside it. -->
+    <Border CornerRadius="20" Background="{StaticResource Canvas}" BorderBrush="{StaticResource Line}" BorderThickness="1" Margin="10">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="18" ShadowDepth="2" Opacity="0.45" Color="#000000" />
+        </Border.Effect>
+        <StackPanel Margin="14">
+            <!-- Header -->
+            <Grid x:Name="Header" Background="Transparent" Margin="2,0,0,12" MouseLeftButtonDown="OnHeaderDrag">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Image x:Name="Logo" Height="46" HorizontalAlignment="Left" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
+                <Border x:Name="StatusChip" Grid.Column="1" CornerRadius="7" Background="{StaticResource PanelRaised}" Padding="9,4" VerticalAlignment="Center" Margin="0,0,6,0">
+                    <TextBlock x:Name="StatusText" Text="Water on" FontSize="11.5" FontWeight="SemiBold" Foreground="{StaticResource AccentBright}" />
+                </Border>
+                <Button Grid.Column="2" Style="{StaticResource IconButton}" Click="OnClose" ToolTip="Hide to tray" VerticalAlignment="Center">
+                    <Path Data="M 0,0 L 9,9 M 9,0 L 0,9" Stroke="{StaticResource Muted}" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                </Button>
+            </Grid>
+
+            <!-- Home page -->
+            <StackPanel x:Name="HomePage">
+                <Border CornerRadius="14" Background="{StaticResource Panel}" Padding="10">
+                    <StackPanel>
+                        <Border CornerRadius="9" Height="168" ClipToBounds="True" Background="{StaticResource PanelRaised}">
+                            <Border.Clip>
+                                <RectangleGeometry x:Name="PreviewClip" RadiusX="9" RadiusY="9" Rect="0,0,322,168" />
+                            </Border.Clip>
+                            <Image x:Name="Preview" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" />
+                        </Border>
+                        <TextBlock x:Name="PictureName" Style="{StaticResource Heading}" Margin="2,10,2,0" TextTrimming="CharacterEllipsis" />
+                        <TextBlock x:Name="PictureNote" Style="{StaticResource Hint}" Margin="2,2,2,10" />
+                        <Button Style="{StaticResource BlueButton}" Content="Choose a picture" Click="OnChoosePicture" />
+                        <Button x:Name="UseWindows" Style="{StaticResource GreyButton}" Content="Use my Windows wallpaper" Click="OnUseWindows" Margin="0,6,0,0" />
+                    </StackPanel>
+                </Border>
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="PauseButton" Style="{StaticResource GreyButton}" Content="Pause" Click="OnPause" />
+                    <Button Grid.Column="2" Style="{StaticResource GreyButton}" Content="Settings" Click="OnOpenSettings" />
+                </Grid>
+            </StackPanel>
+
+            <!-- Settings page -->
+            <StackPanel x:Name="SettingsPage" Visibility="Collapsed">
+                <Border CornerRadius="14" Background="{StaticResource Panel}" Padding="14,12">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource Heading}" Text="Ripple strength" />
+                        <TextBlock Style="{StaticResource Hint}" Text="How big the waves are." />
+                        <Slider x:Name="StrengthSlider" Style="{StaticResource Water}" Margin="0,4,0,10" ValueChanged="OnSlider" />
+                        <TextBlock Style="{StaticResource Heading}" Text="Damping" />
+                        <TextBlock Style="{StaticResource Hint}" Text="How quickly the water calms down." />
+                        <Slider x:Name="DampingSlider" Style="{StaticResource Water}" Margin="0,4,0,10" ValueChanged="OnSlider" />
+                        <TextBlock Style="{StaticResource Heading}" Text="Cursor sensitivity" />
+                        <TextBlock Style="{StaticResource Hint}" Text="How much the cursor stirs the water." />
+                        <Slider x:Name="SensitivitySlider" Style="{StaticResource Water}" Margin="0,4,0,0" ValueChanged="OnSlider" />
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="14" Background="{StaticResource Panel}" Padding="14,12" Margin="0,8,0,0">
+                    <StackPanel>
+                        <CheckBox x:Name="ClickSwitch" Style="{StaticResource Switch}" Content="Splash when I click the desktop" Checked="OnSwitch" Unchecked="OnSwitch" />
+                        <CheckBox x:Name="StartSwitch" Style="{StaticResource Switch}" Content="Start with Windows" Checked="OnStartSwitch" Unchecked="OnStartSwitch" Margin="0,10,0,0" />
+                        <CheckBox x:Name="FullScreenSwitch" Style="{StaticResource Switch}" Content="Pause for full-screen apps" Checked="OnSwitch" Unchecked="OnSwitch" Margin="0,10,0,0" />
+                        <CheckBox x:Name="BatterySwitch" Style="{StaticResource Switch}" Content="Pause on battery" Checked="OnSwitch" Unchecked="OnSwitch" Margin="0,10,0,0" />
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="14" Background="{StaticResource Panel}" Padding="14,12" Margin="0,8,0,0">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource Heading}" Text="Picture fit" />
+                        <UniformGrid x:Name="FitChoices" Rows="1" Margin="0,6,0,10" />
+                        <TextBlock Style="{StaticResource Heading}" Text="Water detail" />
+                        <UniformGrid x:Name="DetailChoices" Rows="1" Margin="0,6,0,0" />
+                    </StackPanel>
+                </Border>
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Style="{StaticResource GreyButton}" Content="Back" Click="OnBack" />
+                    <Button Grid.Column="2" Style="{StaticResource RedButton}" Content="Quit Ripple" Click="OnQuit" />
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

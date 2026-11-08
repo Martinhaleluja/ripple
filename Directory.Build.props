@@ -1,0 +1,3 @@
+<Project>
+  <!-- Stops MSBuild picking up settings from any parent folder. Ripple stands alone. -->
+</Project>
