@@ -7,7 +7,9 @@ underneath, bent by the water. Your icons stay on top and work normally.
 ## Using it
 
 Ripple runs on 64-bit Windows and needs the free [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0).
-Build it with the commands under **Building**, then run `publish\Ripple.exe`.
+Download `Ripple.exe` from the [latest release](https://github.com/Martinhaleluja/ripple/releases/latest) and run it, or
+build it yourself with the commands under **Building**. The exe isn't code-signed, so Windows SmartScreen may warn you
+the first time: choose **More info**, then **Run anyway**.
 
 - **Tiny window:** choose a picture, go back to your Windows wallpaper, pause, or open settings.
 - **Tray icon:** click to open, right-click for Pause and Quit. Closing the window only hides it.
